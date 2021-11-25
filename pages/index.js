@@ -1,13 +1,56 @@
 import Head from "next/head";
 import { motion, useAnimation } from "framer-motion";
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TeamCard, SideBar, Card } from "../components";
 import useWindowSize from "../hooks/Dimensions";
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const control = useAnimation();
   const windowSize = useWindowSize();
+  const [slides, setSlides] = useState([]);
+  const [movement, setMovement] = useState(null);
+
+  const [offset, setOffset] = useState(null);
+  const [slidesWidth, setSlidesWidth] = useState(null);
+  const [count, setCount] = useState(null);
+
+  const sliderRef = useRef(null);
+  const slidesRef = useRef(null);
+
+  const gap = -100;
+
+  const getTranslateX = (el) => {
+    var matrix = new DOMMatrix(el.style.transform);
+    return matrix.m41;
+  };
+
+  useEffect(() => {
+    const slidesRefChilds = [...sliderRef.current.children];
+    console.log(slidesRefChilds);
+    setSlidesWidth((slidesRefChilds[0].getBoundingClientRect().width + 50) * 6);
+    let tempSlides = [];
+    slidesRefChilds.forEach((s, index) => {
+      const posX = (s.getBoundingClientRect().width + gap) * index + offset;
+      tempSlides.push({
+        x: posX,
+        element: s,
+      });
+    });
+    setSlides(tempSlides);
+  }, []);
+
+  const handleClick = () => {
+    console.log(slides);
+    slides.forEach((s, index) => {
+      const previousX = getTranslateX(s.element);
+      console.log(s.element.getBoundingClientRect().width);
+      console.log(previousX);
+      if (s.x <= 200) {
+        s.element.style.transform = `translate3d(1600px ,0px, 0px)`;
+      }
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -30,14 +73,15 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">FRAMER NICERS</a>
         </motion.h1>
 
-        {/* <button
+        <button
           onClick={() => {
-            setIsOpen(true);
+            // setIsOpen(true);
+            handleClick();
             console.log(isOpen);
           }}
         >
           Abrir
-        </button> */}
+        </button>
 
         {/* <button
           onClick={() => {
@@ -46,9 +90,9 @@ export default function Home() {
         >
           Abrir
         </button> */}
-
         <div className={styles.slider}>
           <motion.div
+            id="wow"
             drag="x"
             dragConstraints={
               windowSize.width <= 769
@@ -62,13 +106,29 @@ export default function Home() {
                   }
             }
             dragElastic={0.1}
-            initial={{ y: -100 }}
+            initial={{ y: -900 }}
             animate={{
               y: 0,
             }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            transition={{ type: "spring", stiffness: 100, damping: 40 }}
             className={styles.slides}
+            ref={sliderRef}
           >
+            <Card
+              black="./black_delfas.jpg"
+              personal="./personal_delfas.jpg"
+              name="Delfim Rodrigues"
+            />
+            <Card
+              black="./black_rika.jpg"
+              personal="./personal_rika.jpg"
+              name="Ricardo Magalhães"
+            />
+            <Card
+              black="./black_carvalho.jpg"
+              personal="./personal_carvalho.jpg"
+              name="Ricardo Carvalho"
+            />
             <Card
               black="./black_justa.jpg"
               personal="./personal.jpg"
@@ -80,23 +140,6 @@ export default function Home() {
               personal="./personal2.jpg"
               name="Nuno Gomes"
             />
-            <Card
-              black="./black_diogo.jpg"
-              personal="./personal_diogo.jpg"
-              name="Diogo Monteiro"
-            />
-
-            <Card
-              black="./black_justa.jpg"
-              personal="./personal_justa.jpg"
-              name="Bruno Justa"
-            />
-            <Card
-              black="./black_aves.jpg"
-              personal="./personal_aves.jpg"
-              name="Nuno Gomes"
-            />
-
             <Card
               black="./black_diogo.jpg"
               personal="./personal_diogo.jpg"

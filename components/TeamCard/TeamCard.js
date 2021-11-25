@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 const TeamCard = (props) => {
   const { black, personal } = props;
   const ClipRef = useRef(null);
-  console.log(black, personal);
 
   useEffect(() => {
     const clipRef = ClipRef.current;
