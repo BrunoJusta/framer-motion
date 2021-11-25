@@ -3,10 +3,11 @@ import { motion, useAnimation } from "framer-motion";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import { TeamCard, SideBar, Card } from "../components";
-
+import useWindowSize from "../hooks/Dimensions";
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const control = useAnimation();
+  const windowSize = useWindowSize();
 
   return (
     <div className={styles.container}>
@@ -49,10 +50,17 @@ export default function Home() {
         <div className={styles.slider}>
           <motion.div
             drag="x"
-            dragConstraints={{
-              right: 100,
-              left: -2600,
-            }}
+            dragConstraints={
+              windowSize.width <= 769
+                ? {
+                    right: 100,
+                    left: -375 * 5,
+                  }
+                : {
+                    right: 100,
+                    left: -500 * 5,
+                  }
+            }
             dragElastic={0.1}
             initial={{ y: -100 }}
             animate={{
