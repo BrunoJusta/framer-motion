@@ -1,8 +1,13 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import { motion, useAnimation } from "framer-motion";
+import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import { TeamCard, SideBar, Card } from "../components";
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  const control = useAnimation();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,58 +17,87 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <motion.h1
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 100,
+          }}
+          className={styles.title}
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+          Welcome to <a href="https://nextjs.org">FRAMER NICERS</a>
+        </motion.h1>
+
+        {/* <button
+          onClick={() => {
+            setIsOpen(true);
+            console.log(isOpen);
+          }}
+        >
+          Abrir
+        </button> */}
+
+        {/* <button
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
+          Abrir
+        </button> */}
+
+        <div className={styles.slider}>
+          <motion.div
+            drag="x"
+            dragConstraints={{
+              right: 100,
+              left: -2500,
+            }}
+            dragElastic={0.1}
+            initial={{ y: -100 }}
+            animate={{
+              y: 0,
+            }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            className={styles.slides}
+          >
+            <Card
+              black="./black_justa.png"
+              personal="./personal_justa.png"
+              name="Bruno Justa"
+            />
+
+            <Card
+              black="./black_aves.jpg"
+              personal="./personal_aves.jpg"
+              name="Nuno Gomes"
+            />
+            <Card
+              black="./black_justa.png"
+              personal="./personal_justa.png"
+              name="Bruno Justa"
+            />
+
+            <Card
+              black="./black_aves.jpg"
+              personal="./personal_aves.jpg"
+              name="Nuno Gomes"
+            />
+            <Card
+              black="./black_justa.png"
+              personal="./personal_justa.png"
+              name="Bruno Justa"
+            />
+
+            <Card
+              black="./black_aves.jpg"
+              personal="./personal_aves.jpg"
+              name="Nuno Gomes"
+            />
+          </motion.div>
+        </div>
+        <SideBar open={isOpen} setOpen={setIsOpen} />
+      </main>
     </div>
-  )
+  );
 }
