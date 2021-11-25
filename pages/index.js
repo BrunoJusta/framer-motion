@@ -71,13 +71,13 @@ export default function Home() {
           >
             <Card
               black="./black_justa.jpg"
-              personal="./personal_justa.jpg"
+              personal="./personal.jpg"
               name="Bruno Justa"
             />
 
             <Card
               black="./black_aves.jpg"
-              personal="./personal_aves.jpg"
+              personal="./personal2.jpg"
               name="Nuno Gomes"
             />
             <Card

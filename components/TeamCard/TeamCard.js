@@ -22,10 +22,10 @@ const TeamCard = (props) => {
     const clipRef = ClipRef.current;
 
     if (isOn == true) {
-      clipRef.style.clipPath = `circle(20% at ${e.offsetX}px ${e.offsetY}px)`;
+      clipRef.style.clipPath = `circle(22% at ${e.offsetX}px ${e.offsetY}px)`;
       clipRef.style.transition = "all 0ms ease-in-out";
     } else {
-      clipRef.style.clipPath = `circle(5% at 0px 50%)`;
+      clipRef.style.clipPath = `circle(10% at 0px 0px)`;
       clipRef.style.transition = "all 400ms ease-in-out";
     }
   };
