@@ -51,7 +51,7 @@ export default function Home() {
             drag="x"
             dragConstraints={{
               right: 100,
-              left: -2500,
+              left: -2600,
             }}
             dragElastic={0.1}
             initial={{ y: -100 }}
@@ -62,8 +62,8 @@ export default function Home() {
             className={styles.slides}
           >
             <Card
-              black="./black_justa.png"
-              personal="./personal_justa.png"
+              black="./black_justa.jpg"
+              personal="./personal_justa.jpg"
               name="Bruno Justa"
             />
 
@@ -73,30 +73,30 @@ export default function Home() {
               name="Nuno Gomes"
             />
             <Card
-              black="./black_justa.png"
-              personal="./personal_justa.png"
-              name="Bruno Justa"
+              black="./black_diogo.jpg"
+              personal="./personal_diogo.jpg"
+              name="Diogo Monteiro"
             />
 
+            <Card
+              black="./black_justa.jpg"
+              personal="./personal_justa.jpg"
+              name="Bruno Justa"
+            />
             <Card
               black="./black_aves.jpg"
               personal="./personal_aves.jpg"
               name="Nuno Gomes"
             />
-            <Card
-              black="./black_justa.png"
-              personal="./personal_justa.png"
-              name="Bruno Justa"
-            />
 
             <Card
-              black="./black_aves.jpg"
-              personal="./personal_aves.jpg"
-              name="Nuno Gomes"
+              black="./black_diogo.jpg"
+              personal="./personal_diogo.jpg"
+              name="Diogo Monteiro"
             />
           </motion.div>
         </div>
-        <SideBar open={isOpen} setOpen={setIsOpen} />
+        {/* <SideBar open={isOpen} setOpen={setIsOpen} /> */}
       </main>
     </div>
   );

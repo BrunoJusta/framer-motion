@@ -31,15 +31,10 @@ const TeamCard = (props) => {
   };
   return (
     <motion.div
-      className={style.main}
+      className={style.card}
       style={{ backgroundImage: `url(${black})` }}
     >
-      <motion.div
-        className={style.card}
-        style={{ backgroundImage: `url(${black})` }}
-      >
-        <img ref={ClipRef} src={personal} className={style.img} />
-      </motion.div>
+      <img ref={ClipRef} src={personal} className={style.img} />
     </motion.div>
   );
 };
