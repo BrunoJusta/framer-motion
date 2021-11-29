@@ -2,43 +2,18 @@ import Head from "next/head";
 import { motion, useAnimation } from "framer-motion";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect, useRef } from "react";
-import { TeamCard, SideBar, Card } from "../components";
+import {
+  TeamCard,
+  SideBar,
+  TeamCardMask,
+  CardSlider,
+  TeamGrid,
+} from "../components";
 import useWindowSize from "../hooks/Dimensions";
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const control = useAnimation();
   const windowSize = useWindowSize();
-  const [slides, setSlides] = useState([]);
-  const [movement, setMovement] = useState(null);
-
-  const [offset, setOffset] = useState(null);
-  const [slidesWidth, setSlidesWidth] = useState(null);
-  const [count, setCount] = useState(null);
-
-  const sliderRef = useRef(null);
-  const slidesRef = useRef(null);
-
-  const gap = -100;
-
-  const getTranslateX = (el) => {
-    var matrix = new DOMMatrix(el.style.transform);
-    return matrix.m41;
-  };
-
-  useEffect(() => {
-    const slidesRefChilds = [...sliderRef.current.children];
-    console.log(slidesRefChilds);
-    setSlidesWidth((slidesRefChilds[0].getBoundingClientRect().width + 50) * 6);
-    let tempSlides = [];
-    slidesRefChilds.forEach((s, index) => {
-      const posX = (s.getBoundingClientRect().width + gap) * index + offset;
-      tempSlides.push({
-        x: posX,
-        element: s,
-      });
-    });
-    setSlides(tempSlides);
-  }, []);
 
   const handleClick = () => {
     console.log(slides);
@@ -61,18 +36,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <motion.h1
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 100,
-          }}
-          className={styles.title}
-        >
-          Welcome to <a href="https://nextjs.org">FRAMER NICERS</a>
-        </motion.h1>
-
+        <motion.h1 className={styles.title}>Willbe Collective Team</motion.h1>
+        {/* 
         <button
           onClick={() => {
             // setIsOpen(true);
@@ -81,8 +46,10 @@ export default function Home() {
           }}
         >
           Abrir
-        </button>
+        </button> */}
 
+        <TeamGrid />
+        {/* <CardSlider /> */}
         {/* <button
           onClick={() => {
             setIsOpen(true);
@@ -90,63 +57,7 @@ export default function Home() {
         >
           Abrir
         </button> */}
-        <div className={styles.slider}>
-          <motion.div
-            id="wow"
-            drag="x"
-            dragConstraints={
-              windowSize.width <= 769
-                ? {
-                    right: 100,
-                    left: -375 * 5,
-                  }
-                : {
-                    right: 100,
-                    left: -500 * 5,
-                  }
-            }
-            dragElastic={0.1}
-            initial={{ y: -900 }}
-            animate={{
-              y: 0,
-            }}
-            transition={{ type: "spring", stiffness: 100, damping: 40 }}
-            className={styles.slides}
-            ref={sliderRef}
-          >
-            <Card
-              black="./black_delfas.jpg"
-              personal="./personal_delfas.jpg"
-              name="Delfim Rodrigues"
-            />
-            <Card
-              black="./black_rika.jpg"
-              personal="./personal_rika.jpg"
-              name="Ricardo Magalhães"
-            />
-            <Card
-              black="./black_carvalho.jpg"
-              personal="./personal_carvalho.jpg"
-              name="Ricardo Carvalho"
-            />
-            <Card
-              black="./black_justa.jpg"
-              personal="./personal.jpg"
-              name="Bruno Justa"
-            />
 
-            <Card
-              black="./black_aves.jpg"
-              personal="./personal2.jpg"
-              name="Nuno Gomes"
-            />
-            <Card
-              black="./black_diogo.jpg"
-              personal="./personal_diogo.jpg"
-              name="Diogo Monteiro"
-            />
-          </motion.div>
-        </div>
         {/* <SideBar open={isOpen} setOpen={setIsOpen} /> */}
       </main>
     </div>

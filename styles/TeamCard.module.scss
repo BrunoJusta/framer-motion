@@ -1,52 +1,44 @@
-.super {
+@media screen and (max-width: 1000px) {
+  .teamCard {
+    margin-bottom: 150px;
+    align-items: center !important;
+  }
+}
+
+.card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   margin-right: 50px;
-  transform: translateX(50px);
+  cursor: grab;
 }
 
-.border {
-  margin-top: 16px;
+.cardImage {
+  max-width: 300px;
+  max-height: 300px;
+}
 
+.cardDetails {
+  margin-top: 16px;
   border: 0;
   border-left: 2px solid black;
 }
 
-.titleCard {
+.cardName {
   margin-left: 8px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Poppins;
   font-weight: 500;
-  font-size: 24px;
-  margin-bottom: 4px;
+  font-size: 16px;
+  line-height: 150%;
+  color: #353535;
 }
 
-.p {
+.cardRole {
   margin-left: 8px;
-  color: rgb(68, 68, 68);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.card {
-  width: 500px;
-  min-width: 300px;
-  background-size: cover;
-  background-position: fixed;
-}
-
-@media screen and (max-width: 768px) {
-  .card {
-    width: 100%;
-    min-width: 300px;
-  }
-  .super {
-    margin-right: 50px;
-    transform: translateX(20px);
-  }
-}
-
-.img {
-  width: 100%;
-  clip-path: circle(10% at 0 0);
+  font-family: Poppins;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 150%;
+  color: #353535;
 }
