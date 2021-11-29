@@ -2,13 +2,7 @@ import Head from "next/head";
 import { motion, useAnimation } from "framer-motion";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect, useRef } from "react";
-import {
-  TeamCard,
-  SideBar,
-  TeamCardMask,
-  CardSlider,
-  TeamGrid,
-} from "../components";
+import { CardSlider, TeamGrid } from "../components";
 import useWindowSize from "../hooks/Dimensions";
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +30,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <motion.h1 className={styles.title}>Willbe Collective Team</motion.h1>
+        <motion.h1 className={styles.title}>Willbe Collective</motion.h1>
         {/* 
         <button
           onClick={() => {
