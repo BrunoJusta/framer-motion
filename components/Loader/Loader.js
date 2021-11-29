@@ -9,10 +9,10 @@ const Loader = (props) => {
   const [isAnimatig, setIsAnimating] = useState(null);
 
   useEffect(() => {
-    if (size) {
-      setHeight(size.current.getBoundingClientRect().height + 200);
-      setWidth(size.current.getBoundingClientRect().width + 200);
-    }
+    console.log(size.current.getBoundingClientRect().height + 200);
+    setHeight(size.current.getBoundingClientRect().height + 200);
+    setWidth(size.current.getBoundingClientRect().width + 200);
+
     setIsAnimating(true);
     setTimeout(() => {
       setShow(false);
