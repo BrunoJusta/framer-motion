@@ -22,7 +22,10 @@ const Loader = (props) => {
           position: "absolute",
           zIndex: "100",
         }}
-        animate={{ x: [-2000, 0, 2600], opacity: [1, 1, 1, 0] }}
+        animate={{
+          x: [-2000, 0, 2600],
+          opacity: [1, 1, 1, 0],
+        }}
         transition={{ duration: 2, ease: "easeInOut" }}
       ></motion.div>
       <motion.div
@@ -35,7 +38,10 @@ const Loader = (props) => {
           top: 0,
           left: 0,
         }}
-        animate={{ x: [0, 0, 2600], opacity: [1, 1, 1, 0] }}
+        animate={{
+          x: [0, 0, 2600],
+          opacity: [1, 1, 1, 0],
+        }}
         transition={{ duration: 2, ease: "easeInOut" }}
       ></motion.div>
     </>
