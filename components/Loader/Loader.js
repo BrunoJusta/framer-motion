@@ -4,22 +4,14 @@ import { useState, useEffect } from "react";
 const Loader = (props) => {
   const { size } = props;
   const [height, setHeight] = useState(null);
+  const [width, setWidth] = useState(null);
   const [show, setShow] = useState(true);
   const [isAnimatig, setIsAnimating] = useState(null);
 
-  const loaderVariants = {
-    moveBlack: {
-      x: [-2000, 0, 2600],
-      transition: { duration: 2, ease: "easeInOut" },
-    },
-    moveWhite: {
-      x: [0, 0, 2600],
-      transition: { duration: 2, ease: "easeInOut" },
-    },
-  };
   useEffect(() => {
     if (size) {
-      setHeight(size.current.getBoundingClientRect().height);
+      setHeight(size.current.getBoundingClientRect().height + 200);
+      setWidth(size.current.getBoundingClientRect().width + 200);
     }
     setIsAnimating(true);
     setTimeout(() => {
@@ -27,6 +19,17 @@ const Loader = (props) => {
       setIsAnimating(false);
     }, 2100);
   }, []);
+
+  const loaderVariants = {
+    moveBlack: {
+      x: [-2000, 0, width],
+      transition: { duration: 2, ease: "easeInOut" },
+    },
+    moveWhite: {
+      x: [0, 0, width],
+      transition: { duration: 2, ease: "easeInOut" },
+    },
+  };
 
   return (
     <div>
