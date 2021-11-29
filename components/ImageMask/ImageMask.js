@@ -42,7 +42,7 @@ const ImageMask = (props) => {
       initial={{ y: 100 }}
       whileInView={{ y: 0 }}
       viewport={{ once: true }}
-      transition={{ type: "spring", stiffness: 400, damping: 60 }}
+      transition={{ duration: 0.4, ease: "easeIn" }}
     >
       <img
         ref={ClipRef}

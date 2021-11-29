@@ -11,7 +11,7 @@ const TeamCardMask = (props) => {
       initial={{ y: 200 }}
       whileInView={{ y: 0 }}
       viewport={{ once: true }}
-      transition={{ type: "spring", stiffness: 200, damping: 40 }}
+      transition={{ duration: 0.6, ease: "easeIn" }}
     >
       <ImageMask black={black} personal={personal} />
       <div className={style.cardDetails}>
