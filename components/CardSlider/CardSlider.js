@@ -139,7 +139,14 @@ const CardSlider = (props) => {
         ref={sliderRef}
       >
         {team.map((t, index) => {
-          return <TeamCard black={t.img_black} name={t.name} role={t.role} />;
+          return (
+            <TeamCard
+              black={t.img_black}
+              name={t.name}
+              role={t.role}
+              key={index}
+            />
+          );
         })}
       </motion.div>
     </div>
