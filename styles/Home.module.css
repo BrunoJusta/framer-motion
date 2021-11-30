@@ -29,10 +29,16 @@
   align-items: center;
   justify-content: center;
   transform: translateX(50px);
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .slides {
   width: 100%;
   display: flex;
+}
+
+.slides2 {
+  width: 100%;
+  display: flex;
+  transform: translateX(0px) !important;
 }

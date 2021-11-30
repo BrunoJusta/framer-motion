@@ -9,7 +9,6 @@ const Loader = (props) => {
   const [isAnimatig, setIsAnimating] = useState(null);
 
   useEffect(() => {
-    console.log(size.current.getBoundingClientRect().height + 200);
     setHeight(size.current.getBoundingClientRect().height + 200);
     setWidth(size.current.getBoundingClientRect().width + 200);
 
@@ -38,8 +37,10 @@ const Loader = (props) => {
           style={{
             backgroundColor: "#202020",
             width: "100%",
-            height: `${height}px`,
-            position: "absolute",
+            height: `100%`,
+            position: "fixed",
+            top: "0",
+            left: "0",
             zIndex: "100",
           }}
           variants={loaderVariants}
@@ -53,8 +54,10 @@ const Loader = (props) => {
           style={{
             backgroundColor: "#fafafa",
             width: "100%",
-            height: `${height}px`,
-            position: "absolute",
+            height: `100%`,
+            position: "fixed",
+            top: "0",
+            left: "0",
             zIndex: "80",
           }}
           variants={loaderVariants}

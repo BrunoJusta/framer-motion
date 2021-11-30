@@ -5,3 +5,5 @@ export * from "./Loader";
 export * from "./SideBar";
 export * from "./ImageMask";
 export * from "./CardSlider";
+export * from "./Infinity";
+export * from "./ImageZoom";
