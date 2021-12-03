@@ -86,7 +86,7 @@ const Infinity = (props) => {
         // initialMousePos = e.offsetX;
       };
 
-      slider.ontouchstart = function (e) {
+      slider.ondragenter = function (e) {
         pressed = true;
         startx = e.offsetX - innerSlider.offsetLeft;
         slider.style.cursor = "grabbing";
@@ -107,7 +107,7 @@ const Infinity = (props) => {
         });
       };
 
-      slider.ontouchmove = function (e) {
+      slider.ondrag = function (e) {
         slider.style.cursor = "grab";
         slides.forEach((s, index) => {
           let slide = s.element;
