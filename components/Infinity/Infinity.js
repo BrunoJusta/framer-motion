@@ -92,18 +92,22 @@ const Infinity = (props) => {
 
       slider.onmouseup = function (e) {
         slider.style.cursor = "grab";
-        slides.forEach((s, index) => {
-          let slide = s.element;
-          slide.firstChild.style.transition =
-            "transform 200ms cubic-bezier(0,533.33,1,533.33);";
-          slide.firstChild.style.transform = "skewX(0deg)";
-        });
+        let dir = e.movementX > 0 ? 1 : e.movementX < 0 ? -1 : 0;
+
+        snap(dir);
+        // slides.forEach((s, index) => {
+        //   let slide = s.element;
+        //   slide.firstChild.style.transition =
+        //     "transform 200ms cubic-bezier(0,533.33,1,533.33);";
+        //   slide.firstChild.style.transform = "skewX(0deg)";
+        // });
       };
 
       slider.onmousemove = function (e) {
         if (!pressed) return;
         e.preventDefault();
-        let dir = e.movementX > 0 ? 5 : e.movementX < 0 ? -5 : 0;
+        let dir = e.movementX > 0 ? 1 : e.movementX < 0 ? -1 : 0;
+        // let dir = e.movementX;
         x = e.offsetX;
         innerSlider.style.left = `${x - startx}px`;
         checkBoundary(dir);
@@ -124,6 +128,15 @@ const Infinity = (props) => {
       );
 
       slider.addEventListener(
+        "touchend",
+        (e) => {
+          let dir = e.movementX > 0 ? 1 : e.movementX < 0 ? -1 : 0;
+          snap(dir);
+        },
+        false
+      );
+
+      slider.addEventListener(
         "touchmove",
         (e) => {
           if (!pressed) return;
@@ -139,16 +152,33 @@ const Infinity = (props) => {
     }
   }, [slides]);
 
-  const checkBoundary = (dir) => {
+  const snap = (dir) => {
     const innerSlider = innerRef.current;
-
+    let innerLeft = innerSlider.style.left;
+    let yikes = Number(innerLeft.substring(0, innerLeft.length - 2));
+    console.log(dir);
     slides.forEach((s, index) => {
       let slide = s.element;
       let position = slide.getBoundingClientRect().x;
       let direction = Math.sign(position);
-      slide.firstChild.style.transition =
-        "transform 200ms cubic-bezier(0,533.33,1,533.33);";
-      slide.firstChild.style.transform = `skewX(${dir}deg)`;
+      if (position > 0 && position < 200) {
+        if (index != 0) {
+          console.log("must snap");
+          innerSlider.style.left = `${yikes - 100}px`;
+        }
+      }
+    });
+  };
+
+  const checkBoundary = (dir) => {
+    const innerSlider = innerRef.current;
+    slides.forEach((s, index) => {
+      let slide = s.element;
+      let position = slide.getBoundingClientRect().x;
+      let direction = Math.sign(position);
+      // slide.firstChild.style.transition =
+      //   "transform 200ms cubic-bezier(0,533.33,1,533.33);";
+      // slide.firstChild.style.transform = `skewX(${dir}deg)`;
 
       if (position < -slidesWidth + 10 && direction === -1) {
         slide.style.transform = `translateX(${slidesWidth * count}px)`;
