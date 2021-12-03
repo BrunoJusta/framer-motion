@@ -166,7 +166,7 @@ const Infinity = (props) => {
 
   return (
     <div className={styles.infinitySlider} ref={sliderRef}>
-      <div className={styles.inner} ref={innerRef}>
+      <div className={styles.inner} ref={innerRef} draggable="true">
         {team.map((t, index) => {
           return (
             <div key={index}>
