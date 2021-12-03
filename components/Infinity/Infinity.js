@@ -86,11 +86,28 @@ const Infinity = (props) => {
         // initialMousePos = e.offsetX;
       };
 
+      slider.ontouchstart = function (e) {
+        pressed = true;
+        startx = e.offsetX - innerSlider.offsetLeft;
+        slider.style.cursor = "grabbing";
+        // initialMousePos = e.offsetX;
+      };
+
       slider.onmouseenter = function (e) {
         slider.style.cursor = "grab";
       };
 
       slider.onmouseup = function (e) {
+        slider.style.cursor = "grab";
+        slides.forEach((s, index) => {
+          let slide = s.element;
+          slide.firstChild.style.transition =
+            "transform 200ms cubic-bezier(0,533.33,1,533.33);";
+          slide.firstChild.style.transform = "skewX(0deg)";
+        });
+      };
+
+      slider.ontouchmove = function (e) {
         slider.style.cursor = "grab";
         slides.forEach((s, index) => {
           let slide = s.element;
