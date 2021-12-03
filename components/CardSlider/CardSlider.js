@@ -114,25 +114,25 @@ const CardSlider = (props) => {
           }
         }
 
-        // if (posx + slidesWidth * 6 > slidesWidth * 6 + limit) {
-        //   console.log("WOW-O-WOW");
+        if (posx + slidesWidth * 6 > slidesWidth * 6 + limit) {
+          console.log("WOW-O-WOW");
 
-        //   if (index === 5) {
-        //     s.element.style.transform = `translateX(${
-        //       getTranslateX(slides[0].element) - slidesWidth
-        //     }px)`;
-        //   } else {
-        //     s.element.style.transform = `translateX(${
-        //       getTranslateX(slides[index + 1].element) - slidesWidth
-        //     }px)`;
-        //   }
-        //   setLimit(posx + slidesWidth * 6);
+          if (index === 5) {
+            s.element.style.transform = `translateX(${
+              getTranslateX(slides[0].element) - slidesWidth
+            }px)`;
+          } else {
+            s.element.style.transform = `translateX(${
+              getTranslateX(slides[index + 1].element) - slidesWidth
+            }px)`;
+          }
+          setLimit(posx + slidesWidth * 6);
 
-        //   if (index === 0) {
-        //     let newCount = count + 1;
-        //     setCount(newCount);
-        //   }
-        // }
+          if (index === 0) {
+            let newCount = count + 1;
+            setCount(newCount);
+          }
+        }
       });
     }
   };

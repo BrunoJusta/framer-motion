@@ -1,9 +1,6 @@
-import Head from "next/head";
-import { motion, useAnimation } from "framer-motion";
-import styles from "../../styles/Home.module.css";
 import { useState, useEffect, useRef } from "react";
-import useWindowSize from "../../hooks/Dimensions";
-import { TeamCard, TeamCardMask } from "..";
+import { TeamCard } from "..";
+import styles from "../../styles/Infinity.module.scss";
 
 const Infinity = (props) => {
   const team = [
@@ -51,117 +48,121 @@ const Infinity = (props) => {
     },
   ];
   const sliderRef = useRef();
+  const innerRef = useRef();
   const [slides, setSlides] = useState([]);
-
+  const [count, setCount] = useState([]);
   const [slidesWidth, setSlidesWidth] = useState(null);
-  const [count, setCount] = useState(null);
-  const [limit, setLimit] = useState(0);
-
-  const getTranslateX = (el) => {
-    var matrix = new DOMMatrix(el.style.transform);
-    return matrix.m41;
-  };
+  const [prevent, setPrevent] = useState(false);
 
   useEffect(() => {
-    const slidesRefChilds = [...sliderRef.current.children];
-    setSlidesWidth(slidesRefChilds[0].getBoundingClientRect().width + 50);
-
+    const innerSlider = innerRef.current;
+    const slidesRefChilds = [...innerSlider.children];
+    setSlidesWidth(slidesRefChilds[0].getBoundingClientRect().width);
     let tempSlides = [];
     slidesRefChilds.forEach((s, index) => {
       tempSlides.push({
         element: s,
+        posX: s.getBoundingClientRect().x,
       });
     });
-    setSlides(tempSlides);
+    setSlides([...tempSlides]);
+    setCount(tempSlides.length);
   }, []);
-
-  //   const handleDrag = () => {
-  //     if (posx < -(slidesWidth + 100)) {
-  //       console.log("yay");
-  //       sliderRef.current.addEventListener("transitionend", function () {
-  //         sliderRef.current.appendChild(sliderRef.current.firstElementChild);
-  //         sliderRef.current.style.transition = "none";
-  //         sliderRef.current.style.transform = "translateX(0)";
-  //       });
-  //     }
-  //     // setInterval(() => {
-  //     //   sliderRef.current.style.transform = "translateX(-10%)";
-  //     // }, 3000);
-  //     // sliderRef.current.addEventListener("transitionend", function () {
-  //     //   sliderRef.current.appendChild(sliderRef.current.firstElementChild);
-  //     //   sliderRef.current.style.transition = "none";
-  //     //   sliderRef.current.style.transform = "translateX(0)";
-  //     //   setTimeout(() => {
-  //     //     sliderRef.current.style.transition = "all 600ms ease-in-out";
-  //     //   });
-  //     // });
-  //   };
 
   useEffect(() => {
-    setInterval(() => {
-      sliderRef.current.style.transform = `translateX(${-slidesWidth - 100}px)`;
-      const posx = getTranslateX(sliderRef.current);
-      if (posx < -slidesWidth) {
-        console.log("yay");
-        sliderRef.current.addEventListener("transitionend", function () {
-          sliderRef.current.appendChild(sliderRef.current.firstElementChild);
-          sliderRef.current.style.transition = "none";
-          sliderRef.current.style.transform = "translateX(0)";
-          setTimeout(() => {
-            sliderRef.current.style.transition = "all 600ms ease-in-out";
-          });
+    const slider = sliderRef.current;
+    const innerSlider = innerRef.current;
+
+    if (!prevent && slides.length > 0) {
+      setPrevent(true);
+      let pressed = false;
+      let startx;
+      let x;
+
+      slider.onmousedown = function (e) {
+        pressed = true;
+        startx = e.offsetX - innerSlider.offsetLeft;
+        slider.style.cursor = "grabbing";
+        // initialMousePos = e.offsetX;
+      };
+
+      slider.onmouseenter = function (e) {
+        slider.style.cursor = "grab";
+      };
+
+      slider.onmouseup = function (e) {
+        slider.style.cursor = "grab";
+        slides.forEach((s, index) => {
+          let slide = s.element;
+          slide.firstChild.style.transition =
+            "transform 200ms cubic-bezier(0,533.33,1,533.33);";
+          slide.firstChild.style.transform = "skewX(0deg)";
         });
+      };
+
+      slider.onmousemove = function (e) {
+        if (!pressed) return;
+        e.preventDefault();
+        let dir = e.movementX > 0 ? 5 : e.movementX < 0 ? -5 : 0;
+        x = e.offsetX;
+        innerSlider.style.left = `${x - startx}px`;
+        checkBoundary(dir);
+      };
+
+      window.addEventListener("mouseup", () => {
+        pressed = false;
+      });
+    }
+  }, [slides]);
+
+  const checkBoundary = (dir) => {
+    const innerSlider = innerRef.current;
+
+    slides.forEach((s, index) => {
+      let slide = s.element;
+      let position = slide.getBoundingClientRect().x;
+      let direction = Math.sign(position);
+      slide.firstChild.style.transition =
+        "transform 200ms cubic-bezier(0,533.33,1,533.33);";
+      slide.firstChild.style.transform = `skewX(${dir}deg)`;
+
+      if (position < -slidesWidth + 10 && direction === -1) {
+        slide.style.transform = `translateX(${slidesWidth * count}px)`;
+        if (index === count - 1) {
+          innerSlider.style.left = `${0}px`;
+          slides.forEach((s) => {
+            s.element.style.transform = `translateX(${0}px)`;
+          });
+        }
       }
-    }, 3000);
-  }, []);
+      if (position > slidesWidth * (count - 1) && direction === 1) {
+        slide.style.transform = `translateX(${-slidesWidth * count}px)`;
+        if (index === 0) {
+          innerSlider.style.left = `-${slidesWidth}px`;
+          slides.forEach((s) => {
+            s.element.style.transform = `translateX(${0}px)`;
+          });
+        }
+      }
+    });
+  };
 
   return (
-    <div className="our-clients">
-      <div className="container">
-        <div
-          //   drag="x"
-          //   onDrag={() => handleDrag()}
-          id="client-slider"
-          ref={sliderRef}
-        >
-          {team.map((t, index) => {
-            return (
+    <div className={styles.infinitySlider} ref={sliderRef}>
+      <div className={styles.inner} ref={innerRef}>
+        {team.map((t, index) => {
+          return (
+            <div key={index}>
               <TeamCard
                 black={t.img_black}
                 name={t.name}
                 role={t.role}
                 key={index}
               />
-            );
-          })}
-        </div>
-      </div>
-      {/* <motion.div
-        id="wow"
-        drag="x"
-        dragConstraints={{
-          right: 0,
-          // left: -left,
-        }}
-        dragMomentum={false}
-        initial={{ y: -900 }}
-        animate={{
-          y: 0,
-        }}
-        transition={{ type: "spring", stiffness: 200, damping: 40 }}
-        className={styles.slides}
-      >
-        {team.map((t, index) => {
-          return (
-            <TeamCard
-              black={t.img_black}
-              name={t.name}
-              role={t.role}
-              key={index}
-            />
+            </div>
           );
         })}
-      </motion.div> */}
+      </div>
     </div>
   );
 };

@@ -48,10 +48,10 @@ export default function Home() {
         >
           Abrir
         </button> */}
-        {/* <Infinity /> */}
+        <Infinity />
         {/* <TeamGrid /> */}
         {/* <CardSlider /> */}
-        <ImageZoom />
+        {/* <ImageZoom /> */}
         {/* <button
           onClick={() => {
             setIsOpen(true);

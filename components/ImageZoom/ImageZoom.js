@@ -31,6 +31,9 @@ const ImageZoom = (props) => {
     image.onwheel = function (e) {
       handleImgZoom(e);
     };
+    image.addEventListener("click", function (e) {
+      handleImgZoomClick(e);
+    });
   }, []);
 
   const handleImgZoom = (e) => {
@@ -43,16 +46,41 @@ const ImageZoom = (props) => {
       ? (current = width)
       : (current = Number(bgSize.substring(0, bgSize.length - 2)));
 
-    e.deltaY < 0
-      ? (image.style.backgroundSize = `${current + 20}px`)
-      : current >= 510
-      ? (image.style.backgroundSize = `${current - 20}px`)
-      : "";
+    if (e.deltaY < 0) {
+      if (current < width + 50 * 10) {
+        image.style.backgroundSize = `${current + 50}px`;
+        image.style.cursor = "zoom-in";
+      }
+    } else {
+      if (current >= width + 50) {
+        image.style.cursor = "zoom-out";
+        image.style.backgroundSize = `${current - 50}px`;
+      }
+    }
+  };
+
+  const handleImgZoomClick = (e) => {
+    e.preventDefault();
+
+    let image = e.currentTarget;
+    let bgSize = image.style.backgroundSize;
+    let current;
+    bgSize == ""
+      ? (current = width)
+      : (current = Number(bgSize.substring(0, bgSize.length - 2)));
+
+    if (current < width + 50 * 10) {
+      image.style.backgroundSize = `${current + 50}px`;
+      image.style.cursor = "zoom-in";
+    } else {
+      handleReset(e);
+    }
   };
 
   const handleReset = (e) => {
     let image = e.currentTarget;
     image.style.backgroundSize = `${width}px`;
+    image.style.cursor = "zoom-in";
   };
 
   const handleImgPos = (e) => {
