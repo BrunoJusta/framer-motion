@@ -86,28 +86,11 @@ const Infinity = (props) => {
         // initialMousePos = e.offsetX;
       };
 
-      slider.ondragenter = function (e) {
-        pressed = true;
-        startx = e.offsetX - innerSlider.offsetLeft;
-        slider.style.cursor = "grabbing";
-        // initialMousePos = e.offsetX;
-      };
-
       slider.onmouseenter = function (e) {
         slider.style.cursor = "grab";
       };
 
       slider.onmouseup = function (e) {
-        slider.style.cursor = "grab";
-        slides.forEach((s, index) => {
-          let slide = s.element;
-          slide.firstChild.style.transition =
-            "transform 200ms cubic-bezier(0,533.33,1,533.33);";
-          slide.firstChild.style.transform = "skewX(0deg)";
-        });
-      };
-
-      slider.ondrag = function (e) {
         slider.style.cursor = "grab";
         slides.forEach((s, index) => {
           let slide = s.element;
@@ -129,6 +112,30 @@ const Infinity = (props) => {
       window.addEventListener("mouseup", () => {
         pressed = false;
       });
+
+      slider.addEventListener(
+        "touchstart",
+        (e) => {
+          pressed = true;
+          startx = e.touches[0].clientX - innerSlider.offsetLeft;
+          slider.style.cursor = "grabbing";
+        },
+        false
+      );
+
+      slider.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!pressed) return;
+          console.log("rei");
+          e.preventDefault();
+          // let dir = e.movementX > 0 ? 5 : e.movementX < 0 ? -5 : 0;
+          x = e.touches[0].clientX;
+          innerSlider.style.left = `${x - startx}px`;
+          checkBoundaryMobile();
+        },
+        false
+      );
     }
   }, [slides]);
 
@@ -164,9 +171,38 @@ const Infinity = (props) => {
     });
   };
 
+  const checkBoundaryMobile = () => {
+    const innerSlider = innerRef.current;
+
+    slides.forEach((s, index) => {
+      let slide = s.element;
+      let position = slide.getBoundingClientRect().x;
+      let direction = Math.sign(position);
+
+      if (position < -slidesWidth + 10 && direction === -1) {
+        slide.style.transform = `translateX(${slidesWidth * count}px)`;
+        if (index === count - 1) {
+          innerSlider.style.left = `${0}px`;
+          slides.forEach((s) => {
+            s.element.style.transform = `translateX(${0}px)`;
+          });
+        }
+      }
+      if (position > slidesWidth * (count - 1) && direction === 1) {
+        slide.style.transform = `translateX(${-slidesWidth * count}px)`;
+        if (index === 0) {
+          innerSlider.style.left = `-${slidesWidth}px`;
+          slides.forEach((s) => {
+            s.element.style.transform = `translateX(${0}px)`;
+          });
+        }
+      }
+    });
+  };
+
   return (
     <div className={styles.infinitySlider} ref={sliderRef}>
-      <div className={styles.inner} ref={innerRef} draggable="true">
+      <div className={styles.inner} ref={innerRef}>
         {team.map((t, index) => {
           return (
             <div key={index}>
