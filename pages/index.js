@@ -9,6 +9,7 @@ import {
   Infinity,
   Loader,
   ScrollSnap,
+  TeamCard,
   TeamGrid,
 } from "../components";
 import useWindowSize from "../hooks/Dimensions";
@@ -31,8 +32,8 @@ export default function Home() {
   };
 
   const settings = {
-    width: 400,
-    height: 600,
+    width: 350,
+    height: 360,
     marginRight: 10,
   };
 
@@ -40,22 +41,46 @@ export default function Home() {
     <div className="page">
       <Slider {...settings}>
         <div className="item" style={{ ...settings }}>
-          1
+          <TeamCard
+            black={"./black_justa.jpg"}
+            name={"Bruno Justa"}
+            role={"Front-end Developer"}
+          />
         </div>
         <div className="item" style={{ ...settings }}>
-          2
+          <TeamCard
+            black={"./black_justa.jpg"}
+            name={"Bruno Justa"}
+            role={"Front-end Developer"}
+          />
         </div>
         <div className="item" style={{ ...settings }}>
-          3
+          <TeamCard
+            black={"./black_justa.jpg"}
+            name={"Bruno Justa"}
+            role={"Front-end Developer"}
+          />
         </div>
         <div className="item" style={{ ...settings }}>
-          4
+          <TeamCard
+            black={"./black_justa.jpg"}
+            name={"Bruno Justa"}
+            role={"Front-end Developer"}
+          />
         </div>
         <div className="item" style={{ ...settings }}>
-          5
+          <TeamCard
+            black={"./black_justa.jpg"}
+            name={"Bruno Justa"}
+            role={"Front-end Developer"}
+          />
         </div>
         <div className="item" style={{ ...settings }}>
-          6
+          <TeamCard
+            black={"./black_justa.jpg"}
+            name={"Bruno Justa"}
+            role={"Front-end Developer"}
+          />
         </div>
       </Slider>
     </div>

@@ -157,7 +157,7 @@ const Slider = ({ children, width, height, marginRight }) => {
             if (!isPressed) return;
             console.log(e);
             console.log(e.detail.dir);
-            const mouseDelta = e.touches[0].clientX;
+            // const mouseDelta = e.touches[0].clientX;
             if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
             if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
           }}
