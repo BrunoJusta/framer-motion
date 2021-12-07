@@ -70,7 +70,7 @@ const Slider = ({ children, width, height, marginRight }) => {
     setContainerStyle({
       width: `${items.length * itemTotalWidth}px`,
       transform: `translateX(${x + itemTotalWidth}px)`,
-      transition: `transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)`,
+      transition: `transform 300ms linear`,
     });
     setPos(x + itemTotalWidth);
     setIsPressed(false);
