@@ -158,18 +158,21 @@ const Slider = ({ children, width, height, marginRight }) => {
             console.log(e);
             console.log(e.detail.dir);
             // const mouseDelta = e.touches[0].clientX;
-            if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
-            if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
+            if (e.changedTouches[0].screenX < touchStart) snapToX(pos - 1);
+            if (e.changedTouches[0].screenX > touchStart) snapToX(pos + 1);
           }}
           onTouchEnd={(e) => {
             snapToClosest();
             console.log(currentItem);
-
+            // if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
+            // if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
             if (currentItem == 1) {
               snapToPos(Math.ceil(children.length) + 1);
+              setIsPressed(false);
             }
             if (currentItem == children.length + Math.ceil(children.length)) {
               snapToPos(0);
+              setIsPressed(false);
             }
           }}
           style={containerStyle}
