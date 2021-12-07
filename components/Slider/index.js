@@ -66,13 +66,13 @@ const Slider = ({ children, width, height, marginRight }) => {
     });
     setPos(x);
   };
-  const swipeToX = (x) => {
+  const swipeToX = (x, dir) => {
     setContainerStyle({
       width: `${items.length * itemTotalWidth}px`,
-      transform: `translateX(${x + itemTotalWidth}px)`,
+      transform: `translateX(${x + itemTotalWidth * dir}px)`,
       transition: `transform 300ms linear`,
     });
-    setPos(x + itemTotalWidth);
+    setPos(x + itemTotalWidth * dir);
     setIsPressed(false);
   };
 
@@ -158,8 +158,8 @@ const Slider = ({ children, width, height, marginRight }) => {
             console.log(e);
             console.log(e.detail.dir);
             const mouseDelta = e.touches[0].clientX;
-            if (e.changedTouches[0].screenX < touchStart) swipeToX(pos);
-            if (e.changedTouches[0].screenX > touchStart) swipeToX(pos);
+            if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
+            if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
           }}
           onTouchEnd={(e) => {
             snapToClosest();
