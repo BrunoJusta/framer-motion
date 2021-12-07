@@ -149,8 +149,10 @@ const Slider = ({ children, width, height, marginRight }) => {
             console.log(e);
             console.log(e.detail.dir);
             const mouseDelta = e.touches[0].clientX;
-            if (e.changedTouches[0].screenX < touchStart) snapToX(pos - 10);
-            if (e.changedTouches[0].screenX > touchStart) snapToX(pos + 10);
+            if (e.changedTouches[0].screenX < touchStart)
+              snapToX(pos - itemTotalWidth / 2);
+            if (e.changedTouches[0].screenX > touchStart)
+              snapToX(pos + itemTotalWidth / 2);
           }}
           onTouchEnd={(e) => {
             snapToClosest();
