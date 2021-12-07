@@ -66,12 +66,13 @@ const Slider = ({ children, width, height, marginRight }) => {
     });
     setPos(x);
   };
-  const swipeToX = (x) => {
+  const swipeToX = (x, dir) => {
     setContainerStyle({
       width: `${items.length * itemTotalWidth}px`,
-      transform: `translateX(${x}px)`,
+      transform: `translateX(${x + itemTotalWidth * dir}px)`,
+      transition: `transform 300ms linear`,
     });
-    setPos(x);
+    setPos(x + itemTotalWidth * dir);
     setIsPressed(false);
   };
 
@@ -157,21 +158,20 @@ const Slider = ({ children, width, height, marginRight }) => {
             console.log(e);
             console.log(e.detail.dir);
             // const mouseDelta = e.touches[0].clientX;
-            if (e.changedTouches[0].screenX < touchStart) swipeToX(pos - 6);
-            if (e.changedTouches[0].screenX > touchStart) swipeToX(pos + 6);
+            // if (e.changedTouches[0].screenX < touchStart) snapToX(pos - 6);
+            // if (e.changedTouches[0].screenX > touchStart) snapToX(pos + 6);
           }}
           onTouchEnd={(e) => {
             snapToClosest();
             console.log(currentItem);
-            // if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
-            // if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
+
+            if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
+            if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
             if (currentItem == 1) {
               snapToPos(Math.ceil(children.length) + 1);
-              setIsPressed(false);
             }
             if (currentItem == children.length + Math.ceil(children.length)) {
               snapToPos(0);
-              setIsPressed(false);
             }
           }}
           style={containerStyle}
