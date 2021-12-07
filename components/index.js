@@ -7,3 +7,4 @@ export * from "./ImageMask";
 export * from "./CardSlider";
 export * from "./Infinity";
 export * from "./ImageZoom";
+export * from "./ScrollSnap";

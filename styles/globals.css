@@ -153,3 +153,31 @@ a {
 * {
   box-sizing: border-box;
 }
+.wrapper {
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+.overflow {
+  overflow: hidden;
+  width: 100%;
+}
+.container {
+  display: flex;
+}
+.item {
+  background-color: #aa8822;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid #333;
+  width: 60px;
+  user-select: none;
+  cursor: pointer;
+}
