@@ -32,13 +32,13 @@ const TeamCard = (props) => {
   };
 
   return (
-    <motion.div className={style.card}>
-      <img
-        draggable="false"
-        src={black}
-        className={style.cardImage}
-        ref={tiltRef}
-      />
+    <motion.div
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.05}
+      className={style.card}
+    >
+      <img src={black} className={style.cardImage} ref={tiltRef} />
       <div className={style.cardDetails}>
         <h1 className={style.cardName}>{name}</h1>
         <p className={style.cardRole}>{role}</p>
