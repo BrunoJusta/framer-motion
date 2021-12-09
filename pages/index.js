@@ -44,45 +44,45 @@ export default function Home() {
         isFull={false}
       >
         <div>
-          <div class="card">
-            <div class="bg"></div>
-            <div class="img"></div>
-            <div class="text ricatxt">Ricardo, Co-Founder & CTO</div>
+          <div className="card">
+            <div className="bg"></div>
+            <div className="img"></div>
+            <div className="text ricatxt">Ricardo, Co-Founder & CTO</div>
           </div>
         </div>
         <div>
-          <div class="card">
-            <div class="bg"></div>
-            <div class="img delfas"></div>
-            <div class="text delfastxt">Delfim, Co-Founder & CCO</div>
+          <div className="card">
+            <div className="bg"></div>
+            <div className="img delfas"></div>
+            <div className="text delfastxt">Delfim, Co-Founder & CCO</div>
           </div>
         </div>
         <div>
-          <div class="card">
-            <div class="bg"></div>
-            <div class="img"></div>
-            <div class="text ricatxt">Ricardo, Co-Founder & CTO</div>
+          <div className="card">
+            <div className="bg"></div>
+            <div className="img"></div>
+            <div className="text ricatxt">Ricardo, Co-Founder & CTO</div>
           </div>
         </div>
         <div>
-          <div class="card">
-            <div class="bg"></div>
-            <div class="img delfas"></div>
-            <div class="text delfastxt">Delfim, Co-Founder & CCO</div>
+          <div className="card">
+            <div className="bg"></div>
+            <div className="img delfas"></div>
+            <div className="text delfastxt">Delfim, Co-Founder & CCO</div>
           </div>
         </div>
         <div>
-          <div class="card">
-            <div class="bg"></div>
-            <div class="img"></div>
-            <div class="text ricatxt">Ricardo, Co-Founder & CTO</div>
+          <div className="card">
+            <div className="bg"></div>
+            <div className="img"></div>
+            <div className="text ricatxt">Ricardo, Co-Founder & CTO</div>
           </div>
         </div>
         <div>
-          <div class="card">
-            <div class="bg"></div>
-            <div class="img delfas"></div>
-            <div class="text delfastxt">Delfim, Co-Founder & CCO</div>
+          <div className="card">
+            <div className="bg"></div>
+            <div className="img delfas"></div>
+            <div className="text delfastxt">Delfim, Co-Founder & CCO</div>
           </div>
         </div>
       </Slider>
