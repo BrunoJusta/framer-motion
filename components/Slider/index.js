@@ -1,6 +1,22 @@
+import useWindowSize from "./hooks/WindowSize";
+import style from "./styles/Slider.module.scss";
+import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const Slider = ({ children, width, height, marginRight }) => {
+const Slider = ({
+  children,
+  width,
+  height,
+  margin,
+  useControls,
+  isTouchable,
+  isDraggable,
+  isFull,
+}) => {
+  const windowSize = useWindowSize();
+  const sliderRef = useRef();
+  const wrapperRef = useRef();
   const tempChildrens = [...children].map((item) => {
     return { content: item.props.children, item };
   });
@@ -11,49 +27,123 @@ const Slider = ({ children, width, height, marginRight }) => {
       }
     )
   );
+
   const [containerStyle, setContainerStyle] = useState({});
+  const [positions, setPositions] = useState([]);
   const [currentItem, setCurrentItem] = useState(0);
+  const [currentPos, setCurrentPos] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [itemTotalWidth, setItemTotalWidth] = useState(width + margin);
+  const [itemsLength, setItemsLength] = useState(children.length * 3);
+  const [childrenLength, setChildrenLength] = useState(children.length);
+  const [wrapperWidth, setWrapperWidth] = useState(children.length);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
-  const [positions, setPositions] = useState([]);
-  const [pos, setPos] = useState(0);
-  const [itemTotalWidth, setItemTotalWidth] = useState(width + marginRight);
-  const [touchStart, setTouchStart] = useState(0);
-
-  const sliderRef = useRef();
 
   useEffect(() => {
-    const initialOffset = -itemTotalWidth * children.length;
-    setContainerStyle({ width: `${items.length * itemTotalWidth}px` });
+    snapToPos(0);
+    {
+      isDraggable
+        ? window.addEventListener("mouseup", () => {
+            setIsPressed(false);
+          })
+        : "";
+    }
+  }, []);
 
+  useEffect(() => {
+    // if (isFull) {
+    //   let tempWrapperWidth = wrapperRef.current.getBoundingClientRect().width;
+    //   const initialOffset = -tempWrapperWidth * childrenLength;
+    //   setContainerStyle({
+    //     width: `${itemsLength * tempWrapperWidth}px`,
+    //   });
+    //   setPositions(() => {
+    //     return items.map((item, index) => {
+    //       return initialOffset + index * tempWrapperWidth;
+    //     });
+    //   });
+    //   setItemTotalWidth(tempWrapperWidth);
+    //   setWrapperWidth(tempWrapperWidth);
+    // } else {
+    const initialOffset = -itemTotalWidth * childrenLength;
+    setContainerStyle({ width: `${itemsLength * itemTotalWidth}px` });
     setPositions(() => {
       return items.map((item, index) => {
         return initialOffset + index * itemTotalWidth;
       });
     });
+    // }
   }, [items]);
 
-  useEffect(() => {
-    console.log(positions);
-  }, [positions]);
+  // Desktop Drag Events //
+  const onMouseMove = (e) => {
+    if (!isPressed) return;
+    const mouseDelta = e.movementX;
+    snapToX(currentPos + mouseDelta);
+  };
+  const onMouseUp = () => {
+    sliderRef.current.style.cursor = "grab";
+    snapToClosest();
+  };
+  const onMouseDown = () => {
+    setIsPressed(true);
+    sliderRef.current.style.cursor = "grabbing";
+  };
+  const onMouseEnter = () => {
+    sliderRef.current.style.cursor = "grab";
+  };
+  const onMouseLeave = () => {
+    if (!isPressed) return;
+    snapToClosest();
+  };
 
+  // Mobile Touch Events //
+  const onTouchStart = (e) => {
+    setIsPressed(true);
+    setTouchStart(e.changedTouches[0].screenX);
+  };
+  const onTouchEnd = (e) => {
+    snapToClosest();
+    if (e.changedTouches[0].screenX < touchStart) swipeToX(currentPos, -1);
+    if (e.changedTouches[0].screenX > touchStart) swipeToX(currentPos, 1);
+    if (currentItem == 1) {
+      snapToPos(childrenLength + 1);
+    }
+    if (currentItem >= childrenLength + childrenLength - 1) {
+      snapToPos(0);
+    }
+  };
+
+  // Buttons Controls Events //
+  const moveLeft = () => {
+    console.log(currentItem);
+    gotoItem(currentItem + 1);
+  };
+  const moveRight = () => {
+    gotoItem(currentItem - 1);
+  };
+
+  // Handle Position Functions //
   const gotoItem = (index) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    console.log(index);
     setContainerStyle({
-      width: `${items.length * itemTotalWidth}px`,
+      width: `${itemsLength * itemTotalWidth}px`,
       transform: `translateX(${index * -itemTotalWidth}px)`,
-      transition: `transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)`,
+      transition: wrapperWidth
+        ? `transform 300ms linear`
+        : `transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275)`,
     });
     setCurrentItem(index);
+    setCurrentPos(index * -itemTotalWidth);
   };
 
   const snapToPos = (index) => {
-    const temp = index + children.length;
-    setPos(temp * -itemTotalWidth);
+    const temp = index + childrenLength;
+    setCurrentPos(temp * -itemTotalWidth);
     setContainerStyle({
-      width: `${items.length * itemTotalWidth}px`,
+      width: `${itemsLength * itemTotalWidth}px`,
       transform: `translateX(${temp * -itemTotalWidth}px)`,
     });
     setCurrentItem(temp);
@@ -61,27 +151,28 @@ const Slider = ({ children, width, height, marginRight }) => {
 
   const snapToX = (x) => {
     setContainerStyle({
-      width: `${items.length * itemTotalWidth}px`,
+      width: `${itemsLength * itemTotalWidth}px`,
       transform: `translateX(${x}px)`,
     });
-    setPos(x);
+    setCurrentPos(x);
   };
+
   const swipeToX = (x, dir) => {
     setContainerStyle({
-      width: `${items.length * itemTotalWidth}px`,
+      width: `${itemsLength * itemTotalWidth}px`,
       transform: `translateX(${x + itemTotalWidth * dir}px)`,
       transition: `transform 300ms linear`,
     });
-    setPos(x + itemTotalWidth * dir);
+    setCurrentPos(x + itemTotalWidth * dir);
     setIsPressed(false);
   };
 
   const snapToClosest = () => {
-    const tempPos = -(pos - -itemTotalWidth * children.length);
-
+    const tempPos = -(currentPos - -itemTotalWidth * childrenLength);
     let newPos = positions.reduce(function (prev, curr) {
       return Math.abs(curr - tempPos) < Math.abs(prev - tempPos) ? curr : prev;
     });
+
     positions.forEach((i, index) => {
       if (i === newPos) {
         gotoItem(index);
@@ -89,112 +180,106 @@ const Slider = ({ children, width, height, marginRight }) => {
     });
   };
 
-  useEffect(() => {
-    snapToPos(0);
-
-    window.addEventListener("mouseup", () => {
-      setIsPressed(false);
-    });
-  }, []);
+  // Handle Position after Transition //
+  const onTransitionEnd = () => {
+    setIsTransitioning(false);
+    if (currentItem <= 1) {
+      snapToPos(childrenLength + 1);
+    }
+    if (currentItem >= childrenLength + childrenLength) {
+      snapToPos(0 + (currentItem - childrenLength * 2));
+    }
+  };
 
   return (
-    <div className="wrapper">
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div
-          className="btn"
-          onClick={() => {
-            gotoItem(currentItem + 1);
-          }}
-        >
-          prev
+    <div className={style.wrapper} ref={wrapperRef}>
+      {useControls && useControls ? (
+        <div className={style.btnWrapper}>
+          <div
+            className={style.btn}
+            onClick={() => {
+              moveLeft();
+            }}
+          >
+            <FiChevronLeft />
+          </div>
+          <div
+            className={style.btn}
+            onClick={() => {
+              moveRight();
+            }}
+          >
+            <FiChevronRight />
+          </div>
         </div>
+      ) : (
+        ""
+      )}
+      <div className={style.overflow}>
         <div
-          className="btn"
-          onClick={() => {
-            gotoItem(currentItem - 1);
-          }}
-        >
-          next
-        </div>
-      </div>
-      <div className="overflow">
-        <div
-          className="container"
+          className={style.container}
           ref={sliderRef}
           onMouseEnter={() => {
-            sliderRef.current.style.cursor = "grab";
+            if (!isDraggable) return;
+            onMouseEnter();
           }}
           onMouseUp={() => {
-            sliderRef.current.style.cursor = "grab";
-            snapToClosest();
-            console.log(currentItem);
-
-            if (currentItem == 1) {
-              snapToPos(Math.ceil(children.length) + 1);
-            }
-            if (currentItem == children.length + Math.ceil(children.length)) {
-              snapToPos(0);
-            }
+            if (!isDraggable) return;
+            onMouseUp();
           }}
           onMouseLeave={() => {
-            if (!isPressed) return;
-            snapToClosest();
+            if (!isDraggable) return;
+            onMouseLeave();
           }}
           onMouseDown={() => {
-            setIsPressed(true);
-            sliderRef.current.style.cursor = "grabbing";
+            if (!isDraggable) return;
+            onMouseDown();
           }}
           onMouseMove={(e) => {
-            if (!isPressed) return;
-            const mouseDelta = e.movementX;
-            snapToX(pos + mouseDelta);
+            if (!isDraggable) return;
+            onMouseMove(e);
           }}
           onTouchStart={(e) => {
-            setIsPressed(true);
-            setTouchStart(e.changedTouches[0].screenX);
-          }}
-          onTouchMove={(e) => {
-            if (!isPressed) return;
-            console.log(e);
-            console.log(e.detail.dir);
-            // const mouseDelta = e.touches[0].clientX;
-            // if (e.changedTouches[0].screenX < touchStart) snapToX(pos - 6);
-            // if (e.changedTouches[0].screenX > touchStart) snapToX(pos + 6);
+            if (!isTouchable) return;
+            onTouchStart(e);
           }}
           onTouchEnd={(e) => {
-            snapToClosest();
-            console.log(currentItem);
-
-            if (e.changedTouches[0].screenX < touchStart) swipeToX(pos, -1);
-            if (e.changedTouches[0].screenX > touchStart) swipeToX(pos, 1);
-            if (currentItem == 1) {
-              snapToPos(Math.ceil(children.length) + 1);
-            }
-            if (currentItem == children.length + Math.ceil(children.length)) {
-              snapToPos(0);
-            }
+            if (!isTouchable) return;
+            onTouchEnd(e);
+          }}
+          onTransitionEnd={() => {
+            onTransitionEnd();
           }}
           style={containerStyle}
-          onTransitionEnd={() => {
-            setIsTransitioning(false);
-            if (currentItem == 1) {
-              snapToPos(Math.ceil(children.length) + 1);
-            }
-            if (currentItem == children.length + Math.ceil(children.length)) {
-              snapToPos(0);
-            }
-          }}
         >
           {items &&
             items.map((item, index) => {
-              return (
+              return windowSize.width < 669 ? (
+                <motion.div
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.1}
+                  dragSnapToOrigin={true}
+                  key={index}
+                  className={style.item}
+                  style={{
+                    width: isFull ? wrapperWidth : width,
+                    height: height ? height : "auto",
+                    marginRight: isFull ? 0 : margin,
+                    marginLeft: isFull ? 0 : margin,
+                  }}
+                >
+                  {item.content}
+                </motion.div>
+              ) : (
                 <div
                   key={index}
-                  className="item"
+                  className={style.item}
                   style={{
-                    width: width,
-                    height: height,
-                    marginRight: marginRight,
+                    width: isFull ? wrapperWidth : width,
+                    height: height ? height : "auto",
+                    marginRight: isFull ? 0 : margin,
+                    marginLeft: isFull ? 0 : margin,
                   }}
                 >
                   {item.content}

@@ -1,43 +1,42 @@
-@media screen and (max-width: 1000px) {
-  .teamCard {
-    margin-bottom: 150px;
-    align-items: center !important;
-  }
-}
+// @media screen and (max-width: 1000px) {
+//   .teamCard {
+//     margin-bottom: 150px;
+//     align-items: center !important;
+//   }
+// }
 
 .card {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  cursor: grab;
 }
 
 .cardImage {
-  max-width: 300px;
-  max-height: 300px;
+  width: 100%;
+  height: auto;
 }
 
 .cardDetails {
   margin-top: 16px;
-  border: 0;
-  border-left: 2px solid #353535;
+  border-left: 2px solid #35ba99;
+  padding-left: 8px;
 }
 
 .cardName {
-  margin-left: 8px;
   font-family: Poppins;
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-  color: #353535;
+  color: black;
 }
 
 .cardRole {
-  margin-left: 8px;
   font-family: Poppins;
-  font-weight: 300;
+  font-weight: 100;
   font-size: 14px;
   line-height: 150%;
-  color: #353535;
+  color: black;
 }

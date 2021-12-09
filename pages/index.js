@@ -31,56 +31,59 @@ export default function Home() {
     });
   };
 
-  const settings = {
-    width: 350,
-    height: 360,
-    marginRight: 10,
-  };
-
   return (
     <div className="page">
-      <Slider {...settings}>
-        <div className="item" style={{ ...settings }}>
-          <TeamCard
-            black={"./black_justa.jpg"}
-            name={"Bruno Justa"}
-            role={"Front-end Developer"}
-          />
+      <h1 className="title">willbe Slider</h1>
+      <Slider
+        width={450}
+        height={600}
+        margin={0}
+        useControls={true}
+        isTouchable={true}
+        isDraggable={true}
+        isFull={false}
+      >
+        <div>
+          <div class="card">
+            <div class="bg"></div>
+            <div class="img"></div>
+            <div class="text ricatxt">Ricardo, Co-Founder & CTO</div>
+          </div>
         </div>
-        <div className="item" style={{ ...settings }}>
-          <TeamCard
-            black={"./black_justa.jpg"}
-            name={"Bruno Justa"}
-            role={"Front-end Developer"}
-          />
+        <div>
+          <div class="card">
+            <div class="bg"></div>
+            <div class="img delfas"></div>
+            <div class="text delfastxt">Delfim, Co-Founder & CCO</div>
+          </div>
         </div>
-        <div className="item" style={{ ...settings }}>
-          <TeamCard
-            black={"./black_justa.jpg"}
-            name={"Bruno Justa"}
-            role={"Front-end Developer"}
-          />
+        <div>
+          <div class="card">
+            <div class="bg"></div>
+            <div class="img"></div>
+            <div class="text ricatxt">Ricardo, Co-Founder & CTO</div>
+          </div>
         </div>
-        <div className="item" style={{ ...settings }}>
-          <TeamCard
-            black={"./black_justa.jpg"}
-            name={"Bruno Justa"}
-            role={"Front-end Developer"}
-          />
+        <div>
+          <div class="card">
+            <div class="bg"></div>
+            <div class="img delfas"></div>
+            <div class="text delfastxt">Delfim, Co-Founder & CCO</div>
+          </div>
         </div>
-        <div className="item" style={{ ...settings }}>
-          <TeamCard
-            black={"./black_justa.jpg"}
-            name={"Bruno Justa"}
-            role={"Front-end Developer"}
-          />
+        <div>
+          <div class="card">
+            <div class="bg"></div>
+            <div class="img"></div>
+            <div class="text ricatxt">Ricardo, Co-Founder & CTO</div>
+          </div>
         </div>
-        <div className="item" style={{ ...settings }}>
-          <TeamCard
-            black={"./black_justa.jpg"}
-            name={"Bruno Justa"}
-            role={"Front-end Developer"}
-          />
+        <div>
+          <div class="card">
+            <div class="bg"></div>
+            <div class="img delfas"></div>
+            <div class="text delfastxt">Delfim, Co-Founder & CCO</div>
+          </div>
         </div>
       </Slider>
     </div>

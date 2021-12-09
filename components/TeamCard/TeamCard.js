@@ -9,13 +9,13 @@ const TeamCard = (props) => {
 
   useEffect(() => {
     const tilt = tiltRef.current;
-    tilt.onmousemove = function (e) {
-      handleTilt(e, true);
-    };
+    // tilt.onmousemove = function (e) {
+    //   handleTilt(e, true);
+    // };
 
-    tilt.onmouseleave = function (e) {
-      handleTilt(e, false);
-    };
+    // tilt.onmouseleave = function (e) {
+    //   handleTilt(e, false);
+    // };
   }, []);
 
   const handleTilt = (e, isOn) => {
@@ -32,12 +32,7 @@ const TeamCard = (props) => {
   };
 
   return (
-    <motion.div
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.1}
-      className={style.card}
-    >
+    <div className={style.card}>
       <img
         src={black}
         className={style.cardImage}
@@ -48,7 +43,7 @@ const TeamCard = (props) => {
         <h1 className={style.cardName}>{name}</h1>
         <p className={style.cardRole}>{role}</p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
